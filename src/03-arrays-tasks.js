@@ -458,15 +458,53 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-const getIdentityMatrix = (n) => {
-  return Array(n)
+/**
+ * Возвращает единичную матрицу размера n×n
+ */
+const getIdentityMatrix = (n) =>
+  Array(n)
     .fill(null)
     .map((_, rowIndex) =>
       Array(n)
         .fill(null)
-        .map((colIndex) => (rowIndex === colIndex ? 1 : 0))
+        .map((_, colIndex) => (rowIndex === colIndex ? 1 : 0))
     );
-};
+
+/**
+ * Группирует элементы коллекции в Map, где:
+ * - ключ берётся через keySelector(item)
+ * - значение через valueSelector(item)
+ *
+ * Пример:
+ * group(
+ *   [
+ *     { country: 'Belarus', city: 'Brest' },
+ *     { country: 'Russia', city: 'Omsk' },
+ *     { country: 'Russia', city: 'Samara' },
+ *     { country: 'Belarus', city: 'Minsk' },
+ *   ],
+ *   (item) => item.country,
+ *   (item) => item.city
+ * )
+ * превратится в:
+ * Map {
+ *   "Belarus" => ["Brest", "Minsk"],
+ *   "Russia"  => ["Omsk", "Samara"]
+ * }
+ */
+const group = (array, keySelector, valueSelector) =>
+  array.reduce((map, item) => {
+    const key = keySelector(item);
+    const value = valueSelector(item);
+    const existing = map.get(key);
+    if (existing) {
+      existing.push(value);
+    } else {
+      map.set(key, [value]);
+    }
+    return map;
+  }, new Map());
+
 
 /**
  * Creates an array of integers from the specified start to end (inclusive)
@@ -534,20 +572,22 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  const map = new Map();
-
-  array.forEach((item) => {
+  return array.reduce((map, item) => {
     const key = keySelector(item);
     const value = valueSelector(item);
-
     if (!map.has(key)) {
-      map.set(key, []);
+      // создаём новый массив, если ключа ещё не было
+      map.set(key, [value]);
+    } else {
+      // добавляем к уже существующему
+      map.get(key).push(value);
     }
-    map.get(key).push(value);
-  });
-
-  return map;
+    return map;
+  }, new Map());
 }
+
+module.exports = { group };
+
 
 /**
  * Projects each element of the specified array to a sequence
