@@ -19,9 +19,7 @@
  *   5, 5  => 25
  */
 function getRectangleArea(width, height) {
-  const area = width * height;
-
-  return area;
+  return width * height;
 }
 
 /**
@@ -36,9 +34,7 @@ function getRectangleArea(width, height) {
  *   0    => 0
  */
 function getCircleCircumference(radius) {
-  const circumference = 2 * Math.PI * radius;
-
-  return circumference;
+  return 2 * Math.PI * radius;
 }
 
 /**
@@ -54,9 +50,7 @@ function getCircleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-  const average = value1 / 2 + value2 / 2;
-
-  return average;
+  return value1 / 2 + value2 / 2;
 }
 
 /**
@@ -75,9 +69,7 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-  const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-
-  return distance;
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 }
 
 /**
@@ -93,7 +85,15 @@ function getDistanceBetweenPoints(x1, y1, x2, y2) {
  *   5*x = 0         => 0
  */
 function getLinearEquationRoot(a, b) {
-  return -b / a;
+  if (a !== 0) {
+    return -b / a;
+  }
+
+  if (b === 0) {
+    return Infinity;
+  }
+
+  return NaN;
 }
 
 /**
@@ -114,8 +114,21 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  const dotProduct = x1 * x2 + y1 * y2;
+
+  const magnitude1 = Math.sqrt(x1 ** 2 + y1 ** 2);
+  const magnitude2 = Math.sqrt(x2 ** 2 + y2 ** 2);
+
+  if (magnitude1 === 0 || magnitude2 === 0) {
+    return NaN;
+  }
+
+  const cosTheta = dotProduct / (magnitude1 * magnitude2);
+
+  const clampedCosTheta = Math.max(-1, Math.min(1, cosTheta));
+
+  return Math.acos(clampedCosTheta);
 }
 
 /**
@@ -131,7 +144,7 @@ function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
  *     0     => 0
  */
 function getLastDigit(value) {
-  return value % 10;
+  return Math.abs(value) % 10;
 }
 
 /**
@@ -146,7 +159,7 @@ function getLastDigit(value) {
  * '-525.5'     => -525.5
  */
 function parseNumberFromString(value) {
-  return Number.parseFloat(value);
+  return +value;
 }
 
 /**
@@ -163,7 +176,7 @@ function parseNumberFromString(value) {
  *   1,2,3   => 3.741657386773941
  */
 function getParallelepipedDiagonal(a, b, c) {
-  return Math.sqrt(a * a + b * b + c * c);
+  return Math.sqrt(a ** 2 + b ** 2 + c ** 2);
 }
 
 /**
@@ -184,16 +197,15 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  const factor = 10 ** pow;
-
-  return Math.round(num / factor) * factor;
+  const power = 10 ** pow;
+  return Math.round(num / power) * power;
 }
 
 /**
  * Returns true is the number is prime; otherwise false.
  * See: https://en.wikipedia.org/wiki/Primality_test
  *
- * @param {number} n
+ * @param {number}
  * @return {bool}
  *
  * @example:
@@ -206,8 +218,13 @@ function roundToPowerOfTen(num, pow) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+function isPrime(n) {
+  if (n <= 1) return false;
+  for (let i = 2; i <= Math.sqrt(n); i += 1) {
+    if (n % i === 0) return false;
+  }
+
+  return true;
 }
 
 /**
@@ -226,7 +243,8 @@ function isPrime(/* n */) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  return Number.parseFloat(value) || def;
+  const result = +value;
+  return Number.isNaN(result) ? def : result;
 }
 
 module.exports = {

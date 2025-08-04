@@ -26,20 +26,8 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(num) {
-  if (num % 3 === 0 && num % 5 === 0) {
-    return 'FizzBuzz';
-  }
-
-  if (num % 3 === 0) {
-    return 'Fizz';
-  }
-
-  if (num % 5 === 0) {
-    return 'Buzz';
-  }
-
-  return num;
+function getFizzBuzz(/* num */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -53,14 +41,8 @@ function getFizzBuzz(num) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(n) {
-  let f = 1;
-
-  for (let i = 1; i <= n; i += 1) {
-    f *= i;
-  }
-
-  return f;
+function getFactorial(/* n */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -75,14 +57,8 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(n1, n2) {
-  let sum = 0;
-
-  for (let i = n1; i <= n2; i += 1) {
-    sum += i;
-  }
-
-  return sum;
+function getSumBetweenNumbers(/* n1, n2 */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -100,10 +76,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(a, b, c) {
-  const s = [a, b, c].sort();
-
-  return s[0] + s[1] > s[2];
+function isTriangle(/* a, b, c */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -209,10 +183,8 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-  const int = [a, b].sort((one, two) => one - two);
-
-  return `${isStartIncluded ? '[' : '('}${int[0]}, ${int[1]}${isEndIncluded ? ']' : ')'}`;
+function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -227,8 +199,8 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(str) {
-  return str.split('').reverse().join('');
+function reverseString(/* str */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -243,8 +215,8 @@ function reverseString(str) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(num) {
-  return +num.toString().split('').reverse().join('');
+function reverseInteger(/* num */) {
+  throw new Error('Not implemented');
 }
 
 /**
@@ -285,17 +257,8 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(num) {
-  let sum = num;
-
-  while (sum > 9) {
-    sum = +sum
-      .toString()
-      .split('')
-      .reduce((a, b) => +a + +b, 0);
-  }
-
-  return sum;
+function getDigitalRoot(/* num */) {
+  throw new Error('Not implemented');
 }
 
 /**
