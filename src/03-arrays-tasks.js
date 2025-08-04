@@ -459,7 +459,7 @@ function sortCitiesArray(arr) {
  */
 function getIdentityMatrix(n) {
   return Array.from({ length: n }, (_, i) =>
-    Array.from({ length: n }, (j) => (i === j ? 1 : 0))
+    Array.from({ length: n }, (__, j) => (i === j ? 1 : 0))
   );
 }
 
