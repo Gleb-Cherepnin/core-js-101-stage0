@@ -459,8 +459,8 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  return Array.from({ length: n }, (_, i) =>
-    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
+  return Array.from({ length: n }, (_, rowIndex) =>
+    Array.from({ length: n }, (colIndex) => (rowIndex === colIndex ? 1 : 0))
   );
 }
 
@@ -532,7 +532,7 @@ function distinct(arr) {
 function group(array, keySelector, valueSelector) {
   const map = new Map();
 
-  array.forEach(item => {
+  array.forEach((item) => {
     const key = keySelector(item);
     const value = valueSelector(item);
 
@@ -544,7 +544,6 @@ function group(array, keySelector, valueSelector) {
 
   return map;
 }
-
 
 /**
  * Projects each element of the specified array to a sequence

@@ -147,7 +147,6 @@ function doRectanglesOverlap(rect1, rect2) {
   );
 }
 
-
 /**
  * Returns true, if point lies inside the circle, otherwise false.
  * Circle is an object of
@@ -180,7 +179,6 @@ function isInsideCircle(circle, point) {
   return dx * dx + dy * dy < circle.radius * circle.radius;
 }
 
-
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
  *
@@ -193,14 +191,10 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  for (const char of str) {
-    if (str.indexOf(char) === str.lastIndexOf(char)) {
-      return char;
-    }
-  }
-  return null;
+  return (
+    [...str].find((char) => str.indexOf(char) === str.lastIndexOf(char)) || null
+  );
 }
-
 
 /**
  * Returns the string representation of math interval,
@@ -294,7 +288,6 @@ function isCreditCardNumber(ccn) {
   return sum % 10 === 0;
 }
 
-
 /**
  * Returns the digital root of integer:
  *   step1 : find sum of all digits
@@ -343,25 +336,24 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(str) {
+const isBracketsBalanced = (str) => {
   const stack = [];
-  const pairs = {
-    ')': '(',
-    ']': '[',
-    '}': '{',
-    '>': '<',
-  };
+  const pairs = { '(': ')', '[': ']', '{': '}', '<': '>' };
+  let isBalanced = true;
 
-  for (const char of str) {
-    if (Object.values(pairs).includes(char)) {
+  str.split('').forEach((char) => {
+    if (pairs[char]) {
       stack.push(char);
-    } else if (pairs[char]) {
-      if (stack.pop() !== pairs[char]) return false;
+    } else {
+      const last = stack.pop();
+      if (pairs[last] !== char) {
+        isBalanced = false;
+      }
     }
-  }
-  return stack.length === 0;
-}
+  });
 
+  return isBalanced && stack.length === 0;
+};
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -387,7 +379,6 @@ function toNaryString(num, n) {
   return num.toString(n);
 }
 
-
 /**
  * Returns the common directory path for specified array of full filenames.
  *
@@ -400,23 +391,22 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(pathes) {
-  const splitPaths = pathes.map(path => path.split('/'));
-  const minLen = Math.min(...splitPaths.map(p => p.length));
+const getCommonDirectoryPath = (pathes) => {
+  const splitPaths = pathes.map((path) => path.split('/'));
+  const minLen = Math.min(...splitPaths.map((p) => p.length));
   const commonParts = [];
 
-  for (let i = 0; i < minLen; i++) {
+  for (let i = 0; i < minLen; i += 1) {
     const segment = splitPaths[0][i];
-    if (splitPaths.every(p => p[i] === segment)) {
+    if (splitPaths.every((p) => p[i] === segment)) {
       commonParts.push(segment);
     } else {
       break;
     }
   }
 
-  return commonParts.length ? commonParts.join('/') + '/' : '';
-}
-
+  return commonParts.length ? `${commonParts.join('/')}/` : '';
+};
 
 /**
  * Returns the product of two specified matrixes.
@@ -441,16 +431,15 @@ function getMatrixProduct(m1, m2) {
   const cols = m2[0].length;
   const result = Array.from({ length: rows }, () => Array(cols).fill(0));
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      for (let k = 0; k < m2.length; k++) {
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = 0; j < cols; j += 1) {
+      for (let k = 0; k < m2.length; k += 1) {
         result[i][j] += m1[i][k] * m2[k][j];
       }
     }
   }
   return result;
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
@@ -482,7 +471,7 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(position) {
+const evaluateTicTacToePosition = (position) => {
   const lines = [
     // строки
     [position[0][0], position[0][1], position[0][2]],
@@ -497,14 +486,14 @@ function evaluateTicTacToePosition(position) {
     [position[0][2], position[1][1], position[2][0]],
   ];
 
-  for (const line of lines) {
-    if (line.every(cell => cell === 'X')) return 'X';
-    if (line.every(cell => cell === '0')) return '0';
-  }
+  let winner;
+  lines.forEach((line) => {
+    if (line.every((cell) => cell === 'X')) winner = 'X';
+    if (line.every((cell) => cell === '0')) winner = '0';
+  });
 
-  return undefined;
-}
-
+  return winner;
+};
 
 module.exports = {
   getFizzBuzz,
